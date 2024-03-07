@@ -31,5 +31,12 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
-Route::get('/vallalat/dashboard', [VallalatController::class, 'VallalatDashboard'])->name('vallalat.dashboard');
+Route::middleware(['auth', 'role:admin'])->group(function(){
+    Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
+});
+
+
+
+Route::middleware(['auth', 'role:vallalat'])->group(function(){
+    Route::get('/vallalat/dashboard', [VallalatController::class, 'VallalatDashboard'])->name('vallalat.dashboard');
+});
